@@ -1,0 +1,25 @@
+{
+  "name": "moviesapp",
+  "version": "1.0.0",
+  "description": "movie app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Supratik5904/moviesapp.git"
+  },
+  "keywords": [
+    "Movies"
+  ],
+  "author": "Supratik De",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Supratik5904/moviesapp/issues"
+  },
+  "homepage": "https://github.com/Supratik5904/moviesapp#readme",
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
