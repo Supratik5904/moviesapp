@@ -1,17 +1,18 @@
+import { getGenres, renderMovies, getFilteredData } from "./main.js";
+
 const moviesUrl = "http://localhost:8000/movies";
-const genreUrl = "http://localhost:8000/genres";
+const userUrl = "http://localhost:8000/users/";
 let main = document.getElementById("main");
 let searchElement = document.getElementById("search");
 let movieRating = document.getElementById("rating");
 let movieGenre = document.getElementById("genre");
 let loginElement = document.getElementById("login");
+let listElements = document.getElementById("list-elements");
 let searchValue = "";
-let filteredArrOfMovies = [];
 let ratings = 0;
 let genre = ""; //empty string means faulty value
-let genres = [];
 
-const loggedInUser = window.localStorage.getItem("user");
+let loggedInUser = JSON.parse(window.localStorage.getItem("user"));
 
 if (loggedInUser !== null) {
   let logOut = document.createElement("button");
@@ -20,6 +21,15 @@ if (loggedInUser !== null) {
   logOut.setAttribute("type", "button");
   loginElement.innerHTML = "";
   loginElement.appendChild(logOut);
+  logOut.addEventListener("click", handleLogOut);
+  let myList = document.createElement("li");
+  myList.classList.add("nav-item");
+  let watchListLink = document.createElement("a");
+  watchListLink.classList.add("nav-link");
+  watchListLink.setAttribute("href", "watchlist.html");
+  watchListLink.innerText = "My List";
+  myList.appendChild(watchListLink);
+  listElements.appendChild(myList);
 } else {
   let loginButton = document.createElement("button");
   loginButton.innerText = "Log In";
@@ -32,6 +42,20 @@ if (loggedInUser !== null) {
   loginElement.innerHTML = "";
   loginElement.appendChild(signUpButton);
   loginElement.appendChild(loginButton);
+  signUpButton.addEventListener("click", handleSignup);
+  loginButton.addEventListener("click", handleLogin);
+}
+
+function handleLogOut(event) {
+  window.localStorage.removeItem("user");
+  window.location.href = "/user/login.html";
+}
+function handleLogin(event) {
+  window.location.href = "/user/login.html";
+}
+
+function handleSignup(event) {
+  window.location.href = "/user/signup.html";
 }
 
 const getMovies = async () => {
@@ -43,93 +67,60 @@ const getMovies = async () => {
   }
 };
 
-const getGenres = async () => {
-  fetch(genreUrl)
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      for (let i of data) {
-        console.log(i);
-        let optionELe = document.createElement("option");
-        optionELe.classList.add("dropdown-item");
-        optionELe.setAttribute("value", i.genre);
-        optionELe.innerHTML = i.genre;
-        movieGenre.appendChild(optionELe);
-      }
-    });
-};
-
-const renderMovies = (movies) => {
-  const movieList = movies.map((movie) => {
-    return `<div class="card" ">
-    <img src="${movie.img_link}"
-        class="card-img-top" alt="${movie.name}">
-    <div class="card-body">
-        <h5 class="card-title">${movie.name}</h5>
-        <p class="card-text">Genre : ${movie.genre}</p>
-        <div class="ratings">
-            <span class="material-symbols-outlined">
-                star
-            </span>
-            <span>${movie.imdb_rating}</span>
-        </div>
-        <p>${movie.duration} minutes <p>
-        <button class="btn btn-primary">Add to WatchList</button>
-    </div>
-</div>`;
-  });
-
-  const innerMovieList = movieList.join("");
-  return innerMovieList;
-};
-
 let movies = await getMovies();
-genres = await getGenres();
+await getGenres(movieGenre);
 
-main.innerHTML = renderMovies(movies);
+main.innerHTML = renderMovies("home", movies);
 
-function filterByRating() {
-  return filteredArrOfMovies;
-}
+main.addEventListener("click", async (event) => {
+  if (event.target.id === "addBtn") {
+    // Retrieve the movie ID associated with the clicked button
+    const movieId = event.target.getAttribute("data-movie-id");
+    const getMovieURL = `${moviesUrl}/${movieId}`;
+    const movie = await axios.get(getMovieURL);
+    loggedInUser.movies.push(movie.data);
+    const requestOptions = {
+      method: "PUT", // Assuming you are using the PUT method to update data
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loggedInUser),
+    };
 
-function filterByGenre() {
-  return filteredArrOfMovies;
-}
-
-function getFilteredData() {
-  filteredArrOfMovies =
-    searchValue?.length > 0
-      ? movies.filter(
-          (movie) =>
-            movie.name.toLowerCase().includes(searchValue) ||
-            movie.director_name.toLowerCase().includes(searchValue) ||
-            movie.writter_name.toLowerCase().split(",").includes(searchValue) ||
-            movie.cast_name.toLowerCase().split(",").includes(searchValue)
-        )
-      : movies;
-
-  if (ratings > 0) {
-    filteredArrOfMovies =
-      searchValue?.length > 0 ? filteredArrOfMovies : movies;
-    filteredArrOfMovies = filteredArrOfMovies.filter(
-      (movie) => movie.imdb_rating >= ratings
-    );
+    fetch(`${userUrl}update/${loggedInUser.id}`, requestOptions)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        window.localStorage.setItem("user", JSON.stringify(data));
+        alert(`Added to watch list`);
+      })
+      .catch((error) => {
+        console.error("Could not add movie", error);
+      });
   }
+});
 
-  if (genre?.length > 0) {
-    filteredArrOfMovies =
-      searchValue?.length > 0 || ratings > 0 ? filteredArrOfMovies : movies;
-    filteredArrOfMovies = filteredArrOfMovies.filter((movie) =>
-      movie.genre.toLowerCase().split(",").includes(genre.toLowerCase())
-    );
-  }
-  return filteredArrOfMovies;
+searchElement.addEventListener(
+  "keyup",
+  handleSearchDebounce(handleSearch, 500)
+);
+
+function handleGenreChange(event) {
+  genre = event.target.value;
+  main.innerHTML = "";
+  main.innerHTML = renderMovies(
+    "home",
+    getFilteredData(movies, searchValue, ratings, genre)
+  );
 }
 
 function handleSearch(event) {
   searchValue = event.target.value.toLowerCase();
-  main.innerHTML = renderMovies(getFilteredData());
+  main.innerHTML = renderMovies(
+    "home",
+    getFilteredData(movies, searchValue, ratings, genre)
+  );
 }
 
 function handleSearchDebounce(callback, delay) {
@@ -141,22 +132,13 @@ function handleSearchDebounce(callback, delay) {
     }, delay);
   };
 }
-
-searchElement.addEventListener(
-  "keyup",
-  handleSearchDebounce(handleSearch, 500)
-);
-
 function handleRatingFilter(event) {
   ratings = event.target.value;
   main.innerHTML = "";
-  main.innerHTML = renderMovies(getFilteredData());
-}
-
-function handleGenreChange(event) {
-  genre = event.target.value;
-  main.innerHTML = "";
-  main.innerHTML = renderMovies(getFilteredData());
+  main.innerHTML = renderMovies(
+    "home",
+    getFilteredData(movies, searchValue, ratings, genre)
+  );
 }
 
 movieRating.addEventListener("change", handleRatingFilter);

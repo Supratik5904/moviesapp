@@ -1,0 +1,12 @@
+{
+  "/movies": "/movies",
+  "/movies/:id": "/movies/:id",
+  "/movies/create": "/movies",
+  "/movies/update/:id": "/movies/:id",
+  "/movies/delete/:id": "/movies/:id",
+  "/users/list": "/users",
+  "/users/:userId": "/users/:userId",
+  "/users/create": "/users",
+  "/users/update/:id": "/users/:id",
+  "/users/delete/:id": "/users/:id"
+}
