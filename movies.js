@@ -1,16 +1,25 @@
-import { getGenres, renderMovies, getFilteredData } from "./main.js";
+import {
+  getGenres,
+  renderMovies,
+  getFilteredData,
+  renderShows,
+} from "./main.js";
 
 const moviesUrl = "http://localhost:8000/movies";
 const userUrl = "http://localhost:8000/users/";
+const showsUrl = "http://localhost:8000/shows/";
+
 let main = document.getElementById("main");
 let searchElement = document.getElementById("search");
 let movieRating = document.getElementById("rating");
 let movieGenre = document.getElementById("genre");
 let loginElement = document.getElementById("login");
+let mediaElement = document.getElementById("media");
 let listElements = document.getElementById("list-elements");
 let searchValue = "";
 let ratings = 0;
 let genre = ""; //empty string means faulty value
+let media = mediaElement.value;
 
 let loggedInUser = JSON.parse(window.localStorage.getItem("user"));
 
@@ -67,9 +76,17 @@ const getMovies = async () => {
   }
 };
 
+const getShows = async () => {
+  try {
+    const { data } = await axios.get(showsUrl);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 let movies = await getMovies();
 await getGenres(movieGenre);
-
 main.innerHTML = renderMovies("home", movies);
 
 main.addEventListener("click", async (event) => {
@@ -141,5 +158,17 @@ function handleRatingFilter(event) {
   );
 }
 
+async function handleMediaChange(event) {
+  if (event.target.value === "movies") {
+    let movies = await getMovies();
+    await getGenres(movieGenre);
+    main.innerHTML = renderMovies("home", movies);
+  } else {
+    let shows = await getShows();
+    main.innerHTML = renderShows("home", shows);
+  }
+}
+
+mediaElement.addEventListener("change", handleMediaChange);
 movieRating.addEventListener("change", handleRatingFilter);
 movieGenre.addEventListener("change", handleGenreChange);

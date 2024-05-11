@@ -62,11 +62,11 @@ const renderMovies = (page, movies) => {
               <span>${movie.imdb_rating}</span>
           </div>
           <p>${movie.duration} minutes <p>
-          <button id="addBtn" class="${
-            page === "home" ? "btn btn-primary" : "btn btn-danger"
-          }" data-movie-id="${movie.id}">${
-      page === "home" ? "Add to WatchList" : "Remove"
-    }</button>
+          <button id="${page === "home" ? "addBtn" : "removeBtn"}" class="${
+      page === "home" ? "btn btn-primary" : "btn btn-danger"
+    }" data-movie-id="${movie.id}">
+            ${page === "home" ? "Add to WatchList" : "Remove"}
+        </button>
       </div>
   </div>`;
   });
@@ -75,4 +75,32 @@ const renderMovies = (page, movies) => {
   return innerMovieList;
 };
 
-export { getFilteredData, getGenres, renderMovies };
+const renderShows = (page, shows) => {
+  const showsList = shows.map((show) => {
+    return `<div class="card">
+      <img src="${show.image_thumbnail_path}"
+          class="card-img-top" alt="${show.name}">
+      <div class="card-body" id="${show.id}">
+          <h5 class="card-title">${show.name}</h5>
+          <p class="card-text">Network : ${show.network}</p>
+          <div class="ratings">
+              <span class="material-symbols-outlined">
+                  star
+              </span>
+              <span>${show.imdb_rating}</span>
+          </div>
+          <p>${show.status}<p>
+          <button id="${page === "home" ? "addBtn" : "removeBtn"}" class="${
+      page === "home" ? "btn btn-primary" : "btn btn-danger"
+    }" data-movie-id="${show.id}">
+            ${page === "home" ? "Add to WatchList" : "Remove"}
+        </button>
+      </div>
+  </div>`;
+  });
+
+  const innerShowList = showsList.join("");
+  return innerShowList;
+};
+
+export { getFilteredData, getGenres, renderMovies, renderShows };

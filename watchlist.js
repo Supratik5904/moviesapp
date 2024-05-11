@@ -61,3 +61,33 @@ if (loggedInUser !== null) {
   movieRating.addEventListener("change", handleRatingFilter);
   movieGenre.addEventListener("change", handleGenreChange);
 }
+
+main.addEventListener("click", async (event) => {
+  if (event.target.id === "removeBtn") {
+    // Retrieve the movie ID associated with the clicked button
+    const movieId = event.target.getAttribute("data-movie-id");
+    const newMovies = loggedInUser.movies.filter(
+      (movie) => movie.id !== movieId
+    );
+    loggedInUser.movies = newMovies;
+    const requestOptions = {
+      method: "PUT", // Assuming you are using the PUT method to update data
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loggedInUser),
+    };
+
+    fetch(`${userUrl}update/${loggedInUser.id}`, requestOptions)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        window.localStorage.setItem("user", JSON.stringify(data));
+        alert(`Removed from watch list`);
+      })
+      .catch((error) => {
+        console.error("Could not remove movie", error);
+      });
+  }
+});
