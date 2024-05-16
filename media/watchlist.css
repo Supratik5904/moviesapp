@@ -1,0 +1,14 @@
+.watchlist-container {
+    overflow-x: auto;
+    /* Add horizontal scrolling */
+}
+
+
+
+.movies,
+.shows {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Ensure cards don't wrap to the next line */
+    gap: 20px;
+}

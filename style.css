@@ -1,127 +1,48 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --bg-color: gold
-}
-
-.container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    /* Adjust the minmax value as needed */
-    gap: 20px;
-    /* Added to distribute space between columns */
-}
-
-.card-img-top {
-    height: 20rem;
-}
-
-.card {
-    flex-basis: calc(20% - 15px);
-    /* Adjusted to take 25% of the container width with margin included */
-    max-height: fit-content;
-    margin: 10px 0px 20px 0px;
-    /* Adjusted margin to ensure equal spacing */
-}
-
-.card:hover {
-    scale: 1.1;
-    transition: scale .5s;
-}
-
-/* Added to ensure responsiveness on smaller screens */
-@media (max-width: 992px) {
-    .card {
-        flex-basis: calc(33.33% - 15px);
-        /* Adjusted for three cards per row */
-    }
-}
-
-/* Added to ensure responsiveness on even smaller screens */
-@media (max-width: 768px) {
-    .card {
-        flex-basis: calc(50% - 15px);
-        /* Adjusted for two cards per row */
-    }
+.shift {
+    margin-left: 180px;
 }
 
 
-body {
-    background-color: var(--bg-color);
-}
-
-.header {
-    padding: 2rem;
-}
-
-.heading-1 {
-    color: wheat;
-    font-size: 3rem;
-}
-
-.ratings {
-    display: flex;
-    align-items: center;
-}
-
-.card-body {
+#container {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    background-color: bisque;
+    flex-wrap: wrap;
+    gap: 2rem;
+    background-color: black;
 }
 
-.card-title {
-    margin-top: auto;
+.content {
+    margin-left: 70px;
+    /* Adjust based on sidebar width */
+    padding-left: 15px;
+    /* Adjust based on sidebar width */
 }
 
-.card-text {
-    margin-top: auto;
+.movies,
+.shows {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Ensure cards don't wrap to the next line */
+    gap: 20px;
 }
 
-.ratings {
-    margin-top: auto;
+
+
+.carousels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.btn {
-    margin-top: auto;
+.carousel {
+    flex: 1;
+    max-width: calc(50% - 10px);
+    /* Subtracting margin and borders */
+    margin-right: 10px;
+    position: relative;
 }
 
-.p {
-    margin-top: auto;
-}
-
-.d-flex {
-    width: 25rem;
-    font-size: 1.25rem;
-}
-
-.btn {
-    gap: 3rem;
-    margin: 5px 5px 5px 5px;
-}
-
-.rating-genre {
-    font-size: 0.95rem;
-    border: 1px;
-    box-shadow: 1in;
-    gap: 1rem;
-    height: inherit;
-    display: box;
-    margin-left: 10px;
-}
-
-label {
-    font-family: sans-serif;
-    font-size: 1rem;
-    padding-right: 10px;
-}
-
-select {
-    font-size: 0.9rem;
-    padding: 2px 5px;
+.carousel-inner {
+    position: static;
+    /* Ensures inner items don't overflow */
 }

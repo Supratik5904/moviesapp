@@ -1,0 +1,81 @@
+.login-form .signup-form {
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the modal container */
+/* Style for the modal container */
+.auth-modal {
+    display: none;
+    /* Hide the modal by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: hidden;
+    /* Prevent scroll */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+    backdrop-filter: blur(5px);
+    /* Apply blur effect to the background */
+}
+
+/* Style for the modal container */
+.auth-container {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
+    /* Less width */
+    max-width: 400px;
+    /* Maximum width */
+    height: auto;
+    /* Automatic height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    /* Keep modal fixed */
+    top: 50%;
+    /* Center vertically */
+    left: 50%;
+    /* Center horizontally */
+    transform: translate(-50%, -50%);
+    /* Center the modal */
+}
+
+
+/* Style for the card title */
+.card-title {
+    text-align: center;
+}
+
+/* Style for the form inputs */
+.form-label {
+    font-weight: bold;
+}
+
+/* Style for the form buttons */
+.btn {
+    margin-top: 10px;
+}
+
+/* Style for the create account link */
+.card-link {
+    text-decoration: none;
+    color: blue;
+}
+
+/* Style for the create account link on hover */
+.card-link:hover {
+    text-decoration: underline;
+}
