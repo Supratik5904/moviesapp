@@ -1,5 +1,5 @@
 import { createSidebar } from "../sidebar.js";
-import {moviesUrl,showsUrl } from "../constants";
+import {moviesUrl,showsUrl } from "../constants.js";
 
 
 const queryParams = new URLSearchParams(window.location.search);

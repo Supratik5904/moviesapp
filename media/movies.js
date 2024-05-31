@@ -1,6 +1,6 @@
 import { getGenres, renderMovies, getFilteredData ,addRemoveListFunction} from "./main.js";
 import { createSidebar } from "../sidebar.js";
-import { moviesUrl } from "../constants";
+import { moviesUrl } from "../constants.js";
 
 
 let movieContainer = document.getElementById("movieContainer");

@@ -1,6 +1,6 @@
-import { renderShows, getFilteredShows, getGenres } from "./main.js";
+import { renderShows, getFilteredShows, getGenres,addRemoveListFunction } from "./main.js";
 import { createSidebar } from "../sidebar.js";
-import { userUrl,genreUrl,moviesUrl,showsUrl } from "../constants";
+import { userUrl,genreUrl,moviesUrl,showsUrl } from "../constants.js";
 
 
 let parentContainer = document.getElementById("content");
