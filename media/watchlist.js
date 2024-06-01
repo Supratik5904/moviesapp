@@ -107,7 +107,7 @@ if (loggedInUser !== null) {
         body: JSON.stringify(loggedInUser),
       };
 
-      fetch(`${userUrl}update/${loggedInUser.id}`, requestOptions)
+      fetch(`${userUrl}/${loggedInUser.id}`, requestOptions)
         .then((res) => {
           return res.json();
         })
