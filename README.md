@@ -18,3 +18,11 @@ Asynchronous JavaScript: Utilizes async/await and fetch to handle API requests s
 Dynamic Content: Manipulates the DOM to display movie and TV show lists dynamically.
 CSS Styling: Designed with modern CSS techniques to ensure an engaging user interface.
 This project serves as an educational resource for understanding how to integrate front-end JavaScript with mock server data, providing a practical example of building a movie application similar to IMDb.
+
+
+![image](https://github.com/Supratik5904/moviesapp/assets/47635739/698a0726-e392-4679-b0da-3336e588a35b)
+![image](https://github.com/Supratik5904/moviesapp/assets/47635739/53e29a4c-83bd-4d7e-8b9f-abcc59129351)
+![image](https://github.com/Supratik5904/moviesapp/assets/47635739/317ff711-72fe-4616-8c28-5d3286716c7d)
+
+
+
